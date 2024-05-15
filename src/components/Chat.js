@@ -1,4 +1,3 @@
-// src/components/Chat.js
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -25,7 +24,28 @@ const Chat = () => {
       }
     };
 
+    const fetchConversationHistory = async () => {
+      try {
+        const response = await axios.get(
+          `${process.env.REACT_APP_API_URL}/conversations/${avatarId}`
+        );
+        const fetchedMessages = response.data
+          .map(conversation => [
+            { text: conversation.user_message, sender: 'user' },
+            { text: conversation.avatar_response, sender: 'avatar' },
+          ])
+          .flat();
+        setMessages(fetchedMessages);
+      } catch (error) {
+        console.error(
+          'There was an error fetching the conversation history!',
+          error
+        );
+      }
+    };
+
     fetchAvatarDetails();
+    fetchConversationHistory();
   }, [avatarId]);
 
   const handleSendMessage = async e => {

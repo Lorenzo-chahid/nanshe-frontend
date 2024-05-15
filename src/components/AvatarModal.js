@@ -23,7 +23,8 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
           traits,
           writing,
           user_id: userId,
-        }
+        },
+        console.log('Test :: ', `${process.env.REACT_APP_API_URL}/avatars/`)
       );
       if (response.status === 200) {
         onClose();
