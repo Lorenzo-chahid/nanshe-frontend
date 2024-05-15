@@ -6,11 +6,13 @@ import { useAuth } from '../AuthContext';
 const Login = () => {
   const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(''); // État pour gérer les erreurs de connexion
   const { login: loginUser } = useAuth();
   const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
+    setError(''); // Réinitialiser l'erreur à chaque tentative de connexion
     try {
       const response = await axios.post(
         `${process.env.REACT_APP_API_URL}/login/`,
@@ -23,6 +25,11 @@ const Login = () => {
         loginUser(response.data.user_id); // Passez l'ID utilisateur à la fonction de connexion
       }
     } catch (error) {
+      if (error.response && error.response.status === 400) {
+        setError('Invalid login or password');
+      } else {
+        setError('An error occurred. Please try again.');
+      }
       console.error('There was an error logging in!', error);
     }
   };
@@ -66,6 +73,8 @@ const Login = () => {
               </span>
             </div>
           </div>
+          {error && <p className="help is-danger">{error}</p>}{' '}
+          {/* Afficher l'erreur ici */}
           <div className="field">
             <div className="control">
               <button className="button is-link" type="submit">
