@@ -13,15 +13,18 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/avatars/', {
-        first_name: firstName,
-        last_name: lastName,
-        age,
-        personality,
-        traits,
-        writing,
-        user_id: userId,
-      });
+      const response = await axios.post(
+        'https://nanshe-backend.onrender.com/avatars/',
+        {
+          first_name: firstName,
+          last_name: lastName,
+          age,
+          personality,
+          traits,
+          writing,
+          user_id: userId,
+        }
+      );
       if (response.status === 200) {
         onClose();
       }

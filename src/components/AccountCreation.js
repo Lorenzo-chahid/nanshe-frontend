@@ -1,4 +1,3 @@
-// src/components/AccountCreation.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -13,11 +12,14 @@ const AccountCreation = () => {
     e.preventDefault();
     try {
       // Appel API pour la création de compte
-      const response = await axios.post('http://localhost:8000/users/', {
-        username,
-        password,
-        email,
-      });
+      const response = await axios.post(
+        'https://nanshe-backend.onrender.com/users/',
+        {
+          username,
+          password,
+          email,
+        }
+      );
       if (response.status === 200) {
         navigate('/success');
       }

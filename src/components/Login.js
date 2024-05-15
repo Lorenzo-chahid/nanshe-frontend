@@ -13,10 +13,13 @@ const Login = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/login/', {
-        login,
-        password,
-      });
+      const response = await axios.post(
+        'https://nanshe-backend.onrender.com/login/',
+        {
+          login,
+          password,
+        }
+      );
       if (response.status === 200) {
         loginUser();
       }

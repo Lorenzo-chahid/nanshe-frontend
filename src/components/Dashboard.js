@@ -19,7 +19,9 @@ const Dashboard = () => {
 
   const fetchAvatars = async () => {
     try {
-      const response = await axios.get('http://localhost:8000/avatars/1'); // Remplacez 1 par l'ID utilisateur réel
+      const response = await axios.get(
+        'https://nanshe-backend.onrender.com/avatars/1'
+      ); // Remplacez 1 par l'ID utilisateur réel
       setAvatars(response.data);
     } catch (error) {
       console.error('There was an error fetching the avatars!', error);
