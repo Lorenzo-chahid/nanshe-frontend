@@ -7,12 +7,13 @@ import Login from './components/Login';
 import Success from './components/Success';
 import Dashboard from './components/Dashboard';
 import PrivateRoute from './components/PrivateRoute';
+import Chat from './components/Chat';
 
 const App = () => {
   return (
     <AuthProvider>
       <Routes>
-        <Route path="/" element={<AccountCreation />} />
+        <Route path="/signup" element={<AccountCreation />} />
         <Route path="/login" element={<Login />} />
         <Route path="/success" element={<Success />} />
         <Route
@@ -20,6 +21,14 @@ const App = () => {
           element={
             <PrivateRoute>
               <Dashboard />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/chat/:avatarId"
+          element={
+            <PrivateRoute>
+              <Chat />
             </PrivateRoute>
           }
         />

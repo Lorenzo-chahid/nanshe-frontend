@@ -1,12 +1,14 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
 const Login = () => {
-  const [login, setLogin] = useState('');
+  const [login, setLogin] = useState(''); // Single field for email or username
   const [password, setPassword] = useState('');
   const { login: loginUser } = useAuth();
+  const navigate = useNavigate();
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -70,6 +72,9 @@ const Login = () => {
             </div>
           </div>
         </form>
+        <p style={{ marginTop: '20px' }}>
+          Don't have an account? <Link to="/signup">Create one here</Link>.
+        </p>
       </div>
     </div>
   );

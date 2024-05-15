@@ -10,6 +10,7 @@ import {
 import { useAuth } from '../AuthContext';
 import AvatarModal from './AvatarModal';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
   const { logout } = useAuth();
@@ -84,7 +85,9 @@ const Dashboard = () => {
             <ul>
               {avatars.map(avatar => (
                 <li key={avatar.id}>
-                  {avatar.first_name} {avatar.last_name} (Age: {avatar.age})
+                  <Link to={`/chat/${avatar.id}`}>
+                    {avatar.first_name} {avatar.last_name} (Age: {avatar.age})
+                  </Link>
                 </li>
               ))}
             </ul>
