@@ -1,11 +1,10 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 
 const Login = () => {
-  const [login, setLogin] = useState(''); // Single field for email or username
+  const [login, setLogin] = useState('');
   const [password, setPassword] = useState('');
   const { login: loginUser } = useAuth();
   const navigate = useNavigate();
@@ -14,14 +13,14 @@ const Login = () => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://nanshe-backend.onrender.com/login/',
+        `${process.env.REACT_APP_API_URL}/login/`,
         {
           login,
           password,
         }
       );
       if (response.status === 200) {
-        loginUser();
+        loginUser(response.data.user_id); // Passez l'ID utilisateur à la fonction de connexion
       }
     } catch (error) {
       console.error('There was an error logging in!', error);
@@ -74,10 +73,10 @@ const Login = () => {
               </button>
             </div>
           </div>
+          <p style={{ marginTop: '20px' }}>
+            Don't have an account? <Link to="/signup">Create one here</Link>.
+          </p>
         </form>
-        <p style={{ marginTop: '20px' }}>
-          Don't have an account? <Link to="/signup">Create one here</Link>.
-        </p>
       </div>
     </div>
   );

@@ -17,7 +17,7 @@ const Chat = () => {
     const fetchAvatarDetails = async () => {
       try {
         const response = await axios.get(
-          `https://nanshe-backend.onrender.com/avatars/${avatarId}`
+          `${process.env.REACT_APP_API_URL}/avatars/${avatarId}`
         );
         setAvatar(response.data);
       } catch (error) {
@@ -36,7 +36,7 @@ const Chat = () => {
 
       try {
         const response = await axios.post(
-          'https://nanshe-backend.onrender.com/chat/',
+          `${process.env.REACT_APP_API_URL}/chat/`,
           {
             avatar_id: avatarId,
             user_message: message,

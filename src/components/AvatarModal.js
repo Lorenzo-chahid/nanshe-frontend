@@ -14,7 +14,7 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
     e.preventDefault();
     try {
       const response = await axios.post(
-        'https://nanshe-backend.onrender.com/avatars/',
+        `${process.env.REACT_APP_API_URL}/avatars/`,
         {
           first_name: firstName,
           last_name: lastName,

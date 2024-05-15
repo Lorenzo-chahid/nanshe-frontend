@@ -1,4 +1,3 @@
-// src/components/Dashboard.js
 import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -13,15 +12,15 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
-  const { logout } = useAuth();
+  const { logout, userId } = useAuth();
   const [isModalOpen, setModalOpen] = useState(false);
   const [avatars, setAvatars] = useState([]);
 
   const fetchAvatars = async () => {
     try {
       const response = await axios.get(
-        'https://nanshe-backend.onrender.com/avatars/1'
-      ); // Remplacez 1 par l'ID utilisateur réel
+        `${process.env.REACT_APP_API_URL}/avatars/${userId}`
+      );
       setAvatars(response.data);
     } catch (error) {
       console.error('There was an error fetching the avatars!', error);
@@ -29,8 +28,10 @@ const Dashboard = () => {
   };
 
   useEffect(() => {
-    fetchAvatars();
-  }, []);
+    if (userId) {
+      fetchAvatars();
+    }
+  }, [userId]);
 
   const handleOpenModal = () => {
     setModalOpen(true);
@@ -98,7 +99,7 @@ const Dashboard = () => {
         <AvatarModal
           isOpen={isModalOpen}
           onClose={handleCloseModal}
-          userId={1 /* Replace with actual user ID */}
+          userId={userId}
         />
       </div>
     </div>
