@@ -35,13 +35,13 @@ const Chat = () => {
             {
               text: conversation.user_message,
               sender: 'user',
-              image: user.user_image,
+              image:
+                'https://img.freepik.com/photos-premium/personne-dans-carre-qui-personne-dans-cadre_825862-296.jpg',
             },
             {
               text: conversation.avatar_response,
               sender: 'avatar',
-              image:
-                'https://cdni.pornpics.com/1280/7/584/22978787/22978787_018_14a3.jpg',
+              image: conversation.avatar_image,
             },
           ])
           .flat();
@@ -65,7 +65,7 @@ const Chat = () => {
         text: message,
         sender: 'user',
         image:
-          'https://img.freepik.com/photos-gratuite/jeune-belle-femme-pull-chaud-rose-aspect-naturel-souriant-portrait-isole-cheveux-longs_285396-896.jpg?w=1800&t=st=1715885498~exp=1715886098~hmac=b9963f50df388ad26f3b25d52e87477b1051b7c5f8e5ddfdf37ad6a04d86cf41',
+          'https://img.freepik.com/photos-premium/personne-dans-carre-qui-personne-dans-cadre_825862-296.jpg',
       };
       setMessages([...messages, newMessage]);
 
@@ -81,8 +81,7 @@ const Chat = () => {
         const aiMessage = {
           text: response.data.avatar_response,
           sender: 'avatar',
-          image:
-            'https://cdni.pornpics.com/1280/7/584/22978787/22978787_018_14a3.jpg',
+          image: response.data.avatar_image,
         };
         setMessages(prevMessages => [...prevMessages, aiMessage]);
       } catch (error) {
