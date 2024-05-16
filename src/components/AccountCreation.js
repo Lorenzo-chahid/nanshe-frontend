@@ -16,13 +16,16 @@ const AccountCreation = () => {
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:8000/users/', {
-        username,
-        password,
-        email,
-        profile_image,
-        premium,
-      });
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/users/`,
+        {
+          username,
+          password,
+          email,
+          profile_image,
+          premium,
+        }
+      );
       if (response.status === 200) {
         setShowModal(true);
         setTimeout(() => {
