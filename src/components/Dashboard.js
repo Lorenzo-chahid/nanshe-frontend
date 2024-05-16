@@ -10,6 +10,7 @@ import { useAuth } from '../AuthContext';
 import AvatarModal from './AvatarModal';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import logo from '../img/icon.png'; // Assurez-vous de corriger le chemin vers le logo
 
 const Dashboard = () => {
   const { logout, userId } = useAuth();
@@ -45,25 +46,39 @@ const Dashboard = () => {
   return (
     <div
       className="container is-fluid"
-      style={{ display: 'flex', height: '100vh' }}
+      style={{
+        display: 'flex',
+        height: '100vh',
+        backgroundColor: '#222D41', // Arrière-plan sombre comme dans Login
+        color: '#D76C58', // Couleur du texte pour le style uniforme
+      }}
     >
       <aside
         className="menu"
-        style={{ width: '250px', background: '#f5f5f5', padding: '20px' }}
+        style={{
+          width: '250px',
+          background: '#f5f5f5',
+          padding: '20px',
+        }}
       >
+        <img
+          src={logo}
+          alt="Nanshe Logo"
+          style={{ width: '100px', margin: '10px auto' }}
+        />
         <ul className="menu-list">
           <li>
-            <a className="is-active">
+            <a className="is-active" style={{ color: '#7F5056' }}>
               <FontAwesomeIcon icon={faUser} /> Profile
             </a>
           </li>
           <li>
-            <a>
+            <a style={{ color: '#7F5056' }}>
               <FontAwesomeIcon icon={faCog} /> Settings
             </a>
           </li>
           <li>
-            <a onClick={logout}>
+            <a onClick={logout} style={{ color: '#7F5056' }}>
               <FontAwesomeIcon icon={faSignOutAlt} /> Logout
             </a>
           </li>
@@ -77,18 +92,24 @@ const Dashboard = () => {
             marginBottom: '20px',
           }}
         >
-          <button className="button is-primary" onClick={handleOpenModal}>
+          <button
+            className="button is-primary"
+            onClick={handleOpenModal}
+            style={{ backgroundColor: '#7F5056', borderColor: '#7F5056' }}
+          >
             <span className="icon">
               <FontAwesomeIcon icon={faPlus} />
             </span>
             <span>Create Avatar</span>
           </button>
           <div style={{ marginLeft: '20px' }}>
-            <h2 className="title is-4">My Avatars</h2>
+            <h2 className="title is-4" style={{ color: '#D76C58' }}>
+              My Avatars
+            </h2>
             <ul>
               {avatars.map(avatar => (
-                <li key={avatar.id}>
-                  <Link to={`/chat/${avatar.id}`}>
+                <li key={avatar.id} style={{ color: '#D76C58' }}>
+                  <Link to={`/chat/${avatar.id}`} style={{ color: '#D76C58' }}>
                     {avatar.first_name} {avatar.last_name} (Age: {avatar.age})
                   </Link>
                 </li>

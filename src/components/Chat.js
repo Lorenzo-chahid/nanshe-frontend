@@ -7,7 +7,7 @@ import axios from 'axios';
 
 const Chat = () => {
   const { avatarId } = useParams();
-  const { logout } = useAuth();
+  const { logout, user } = useAuth(); // Assuming `user` contains the user's profile details
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [avatar, setAvatar] = useState(null);
@@ -29,10 +29,19 @@ const Chat = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/conversations/${avatarId}`
         );
+        console.log('HERE :: ', response.data);
         const fetchedMessages = response.data
           .map(conversation => [
-            { text: conversation.user_message, sender: 'user' },
-            { text: conversation.avatar_response, sender: 'avatar' },
+            {
+              text: conversation.user_message,
+              sender: 'user',
+              image: user?.user_image,
+            },
+            {
+              text: conversation.avatar_response,
+              sender: 'avatar',
+              image: avatar?.avatar_image,
+            },
           ])
           .flat();
         setMessages(fetchedMessages);
@@ -46,12 +55,17 @@ const Chat = () => {
 
     fetchAvatarDetails();
     fetchConversationHistory();
-  }, [avatarId]);
+  }, [avatarId, user]);
 
   const handleSendMessage = async e => {
     e.preventDefault();
     if (message.trim() !== '') {
-      const newMessage = { text: message, sender: 'user' };
+      const newMessage = {
+        text: message,
+        sender: 'user',
+        image:
+          'https://img.freepik.com/photos-gratuite/jeune-belle-femme-pull-chaud-rose-aspect-naturel-souriant-portrait-isole-cheveux-longs_285396-896.jpg?w=1800&t=st=1715885498~exp=1715886098~hmac=b9963f50df388ad26f3b25d52e87477b1051b7c5f8e5ddfdf37ad6a04d86cf41',
+      };
       setMessages([...messages, newMessage]);
 
       try {
@@ -66,6 +80,7 @@ const Chat = () => {
         const aiMessage = {
           text: response.data.avatar_response,
           sender: 'avatar',
+          image: avatar?.profile_image,
         };
         setMessages(prevMessages => [...prevMessages, aiMessage]);
       } catch (error) {
@@ -124,13 +139,24 @@ const Chat = () => {
             <div
               key={index}
               style={{
-                textAlign: msg.sender === 'user' ? 'right' : 'left',
+                display: 'flex',
+                justifyContent:
+                  msg.sender === 'user' ? 'flex-end' : 'flex-start',
                 marginBottom: '10px',
               }}
             >
-              <span
+              <img
+                src={msg.image}
+                alt="Profile"
                 style={{
-                  display: 'inline-block',
+                  width: '40px',
+                  height: '40px',
+                  borderRadius: '50%',
+                  margin: '0 10px',
+                }}
+              />
+              <div
+                style={{
                   padding: '10px',
                   borderRadius: '10px',
                   background: msg.sender === 'user' ? '#d1e7dd' : '#f8d7da',
@@ -138,7 +164,7 @@ const Chat = () => {
                 }}
               >
                 {msg.text}
-              </span>
+              </div>
             </div>
           ))}
         </div>

@@ -1,4 +1,3 @@
-// src/components/AvatarModal.js
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -9,6 +8,7 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
   const [personality, setPersonality] = useState('');
   const [traits, setTraits] = useState('');
   const [writing, setWriting] = useState('');
+  const [profileImage, setProfileImage] = useState(''); // State for profile image URL
 
   const handleSubmit = async e => {
     e.preventDefault();
@@ -22,9 +22,9 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
           personality,
           traits,
           writing,
+          profile_image: profileImage, // Include profile image in the API request
           user_id: userId,
-        },
-        console.log('Test :: ', `${process.env.REACT_APP_API_URL}/avatars/`)
+        }
       );
       if (response.status === 200) {
         onClose();
@@ -42,10 +42,15 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
     <div className="modal is-active">
       <div className="modal-background" onClick={onClose}></div>
       <div className="modal-content">
-        <div className="box">
+        <div
+          className="box"
+          style={{ backgroundColor: '#222D41', color: '#D76C58' }}
+        >
           <form onSubmit={handleSubmit}>
             <div className="field">
-              <label className="label">First Name</label>
+              <label className="label" style={{ color: '#D76C58' }}>
+                First Name
+              </label>
               <div className="control">
                 <input
                   className="input"
@@ -53,22 +58,36 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
                   value={firstName}
                   onChange={e => setFirstName(e.target.value)}
                   required
+                  style={{
+                    backgroundColor: '#11151D',
+                    borderColor: '#7F5056',
+                    color: '#D76C58',
+                  }}
                 />
               </div>
             </div>
             <div className="field">
-              <label className="label">Last Name (Optional)</label>
+              <label className="label" style={{ color: '#D76C58' }}>
+                Last Name (Optional)
+              </label>
               <div className="control">
                 <input
                   className="input"
                   type="text"
                   value={lastName}
                   onChange={e => setLastName(e.target.value)}
+                  style={{
+                    backgroundColor: '#11151D',
+                    borderColor: '#7F5056',
+                    color: '#D76C58',
+                  }}
                 />
               </div>
             </div>
             <div className="field">
-              <label className="label">Age</label>
+              <label className="label" style={{ color: '#D76C58' }}>
+                Age
+              </label>
               <div className="control">
                 <input
                   className="slider"
@@ -77,34 +96,51 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
                   max="100"
                   value={age}
                   onChange={e => setAge(Number(e.target.value))}
+                  style={{ background: '#7F5056' }}
                 />
-                <span>{age}</span>
+                <span style={{ color: '#D76C58' }}>{age}</span>
               </div>
             </div>
             <div className="field">
-              <label className="label">Personality (Optional)</label>
+              <label className="label" style={{ color: '#D76C58' }}>
+                Personality (Optional)
+              </label>
               <div className="control">
                 <input
                   className="input"
                   type="text"
                   value={personality}
                   onChange={e => setPersonality(e.target.value)}
+                  style={{
+                    backgroundColor: '#11151D',
+                    borderColor: '#7F5056',
+                    color: '#D76C58',
+                  }}
                 />
               </div>
             </div>
             <div className="field">
-              <label className="label">Traits (Optional)</label>
+              <label className="label" style={{ color: '#D76C58' }}>
+                Traits (Optional)
+              </label>
               <div className="control">
                 <input
                   className="input"
                   type="text"
                   value={traits}
                   onChange={e => setTraits(e.target.value)}
+                  style={{
+                    backgroundColor: '#11151D',
+                    borderColor: '#7F5056',
+                    color: '#D76C58',
+                  }}
                 />
               </div>
             </div>
             <div className="field">
-              <label className="label">Writing</label>
+              <label className="label" style={{ color: '#D76C58' }}>
+                Writing
+              </label>
               <div className="control">
                 <input
                   className="input"
@@ -112,12 +148,40 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
                   value={writing}
                   onChange={e => setWriting(e.target.value)}
                   required
+                  style={{
+                    backgroundColor: '#11151D',
+                    borderColor: '#7F5056',
+                    color: '#D76C58',
+                  }}
+                />
+              </div>
+            </div>
+            <div className="field">
+              <label className="label" style={{ color: '#D76C58' }}>
+                Profile Image URL
+              </label>
+              <div className="control">
+                <input
+                  className="input"
+                  type="text"
+                  placeholder="http://example.com/image.jpg"
+                  value={profileImage}
+                  onChange={e => setProfileImage(e.target.value)}
+                  style={{
+                    backgroundColor: '#11151D',
+                    borderColor: '#7F5056',
+                    color: '#D76C58',
+                  }}
                 />
               </div>
             </div>
             <div className="field">
               <div className="control">
-                <button className="button is-link" type="submit">
+                <button
+                  className="button is-link"
+                  type="submit"
+                  style={{ backgroundColor: '#7F5056', borderColor: '#7F5056' }}
+                >
                   Create Avatar
                 </button>
               </div>
@@ -129,6 +193,7 @@ const AvatarModal = ({ isOpen, onClose, userId }) => {
         className="modal-close is-large"
         aria-label="close"
         onClick={onClose}
+        style={{ color: '#7F5056' }}
       ></button>
     </div>
   );

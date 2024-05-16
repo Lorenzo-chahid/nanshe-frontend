@@ -1,27 +1,33 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { Modal, Button } from 'react-bulma-components';
 
 const AccountCreation = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
+  const profile_image = '';
+  const premium = false;
   const navigate = useNavigate();
+
+  const [showModal, setShowModal] = useState(false); // State to control modal visibility
 
   const handleSubmit = async e => {
     e.preventDefault();
     try {
-      // Appel API pour la création de compte
-      const response = await axios.post(
-        'https://nanshe-backend.onrender.com/users/',
-        {
-          username,
-          password,
-          email,
-        }
-      );
+      const response = await axios.post('http://localhost:8000/users/', {
+        username,
+        password,
+        email,
+        profile_image,
+        premium,
+      });
       if (response.status === 200) {
-        navigate('/success');
+        setShowModal(true);
+        setTimeout(() => {
+          navigate('/dashboard'); // Redirect to dashboard after 3 seconds
+        }, 3000);
       }
     } catch (error) {
       console.error('There was an error creating the account!', error);
@@ -90,11 +96,15 @@ const AccountCreation = () => {
               </button>
             </div>
           </div>
-          <div className="field">
-            <p>
-              Already have an account? <Link to="/login">Login here</Link>.
-            </p>
-          </div>
+          {showModal && (
+            <Modal show={showModal} onClose={() => setShowModal(false)}>
+              <Modal.Content>
+                <div className="notification is-primary">
+                  Congratulations! Your account has been created successfully.
+                </div>
+              </Modal.Content>
+            </Modal>
+          )}
         </form>
       </div>
     </div>
