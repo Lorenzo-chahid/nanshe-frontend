@@ -35,12 +35,13 @@ const Chat = () => {
             {
               text: conversation.user_message,
               sender: 'user',
-              image: user?.user_image,
+              image: user.user_image,
             },
             {
               text: conversation.avatar_response,
               sender: 'avatar',
-              image: avatar?.avatar_image,
+              image:
+                'https://cdni.pornpics.com/1280/7/584/22978787/22978787_018_14a3.jpg',
             },
           ])
           .flat();
@@ -80,7 +81,8 @@ const Chat = () => {
         const aiMessage = {
           text: response.data.avatar_response,
           sender: 'avatar',
-          image: avatar?.profile_image,
+          image:
+            'https://cdni.pornpics.com/1280/7/584/22978787/22978787_018_14a3.jpg',
         };
         setMessages(prevMessages => [...prevMessages, aiMessage]);
       } catch (error) {
