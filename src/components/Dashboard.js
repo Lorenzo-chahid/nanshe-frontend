@@ -5,9 +5,11 @@ import {
   faCog,
   faSignOutAlt,
   faPlus,
+  faHome,
 } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../AuthContext';
 import AvatarModal from './AvatarModal';
+import CardComponent from './CardComponent';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import logo from '../img/icon.png'; // Assurez-vous de corriger le chemin vers le logo
@@ -68,14 +70,23 @@ const Dashboard = () => {
         />
         <ul className="menu-list">
           <li>
-            <a className="is-active" style={{ color: '#7F5056' }}>
-              <FontAwesomeIcon icon={faUser} /> Profile
-            </a>
+            <Link
+              to="/dashboard"
+              className="is-active"
+              style={{ color: '#7F5056' }}
+            >
+              <FontAwesomeIcon icon={faHome} /> Dashboard
+            </Link>
           </li>
           <li>
-            <a style={{ color: '#7F5056' }}>
+            <Link to="/profile" style={{ color: '#7F5056' }}>
+              <FontAwesomeIcon icon={faUser} /> Profile
+            </Link>
+          </li>
+          <li>
+            <Link to="/settings" style={{ color: '#7F5056' }}>
               <FontAwesomeIcon icon={faCog} /> Settings
-            </a>
+            </Link>
           </li>
           <li>
             <a onClick={logout} style={{ color: '#7F5056' }}>
@@ -121,6 +132,17 @@ const Dashboard = () => {
           isOpen={isModalOpen}
           onClose={handleCloseModal}
           userId={userId}
+        />
+        <CardComponent
+          avatars={avatars}
+          onAvatarClick={avatarId => {
+            console.log('Avatar clicked:', avatarId);
+            // Vous pouvez ajouter une logique supplémentaire ici si nécessaire
+          }}
+          runAdventure={() => {
+            console.log('Adventure started!');
+            // Ajoutez ici la logique pour démarrer l'aventure
+          }}
         />
       </div>
     </div>

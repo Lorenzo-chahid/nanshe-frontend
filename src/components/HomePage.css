@@ -1,0 +1,94 @@
+.jumbotron {
+    background-image: url('../img/adventure.png');
+    background-size: cover;
+    background-position: center;
+    height: 450px; /* Adjust height as needed */
+    display: flex;
+    align-items: center;
+    position: relative;
+    color: rgb(215, 108, 88);
+  }
+  
+  .logo {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 100px; /* Adjust based on actual logo size */
+  }
+
+  .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5); /* Voile gris semi-transparent */
+    z-index: 1; /* S'assure que le voile est au-dessus de l'image mais en dessous du contenu */
+  }
+  
+
+  
+  .logo-container {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .app-title {
+    font-weight: bold;
+    margin-left: 10px; /* Ajoutez un espace entre le logo et le texte */
+    color: rgb(215, 108, 88);
+    z-index: 2; /* Assure que le texte est visible sur le masque */
+  }
+  
+  .header-content {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    display: flex;
+    flex-direction: column; /* Les éléments sont l'un au-dessus de l'autre */
+    align-items: flex-end; /* Alignement à droite */
+    z-index: 2;
+  }
+  
+  .signup-button {
+    padding: 15px 30px;
+    margin-top: 10px; /* Espacement entre les boutons */
+    background-color: #7F5056; /* Couleur de fond */
+    color: #fff; /* Couleur du texte */
+    font-size: 1.2em; /* Taille du texte */
+    font-weight: bold; /* Texte en gras */
+    text-decoration: none;
+    border-radius: 5px;
+  }
+  
+  
+  .login-button {
+    padding: 10px 20px;
+    background-color: #fff;
+    border: none;
+    border-radius: 5px;
+    color: rgb(215, 108, 88);
+    text-transform: uppercase;
+    font-weight: bold;
+    text-decoration: none;
+  }
+  
+  .title-container {
+    text-align: center;
+    margin: 0 auto;
+  }
+  
+  .main-title {
+    font-weight: bold;
+    font-size: 2em;
+  }
+  
+  .intro-text {
+    text-align: center;
+    margin-top: 20px;
+    padding: 0 20px;
+  }
+  

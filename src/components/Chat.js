@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faUser, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
+import ReactAudioPlayer from 'react-audio-player';
+import { Link } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlay, faHome } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from '../AuthContext';
 import axios from 'axios';
 
@@ -11,6 +14,30 @@ const Chat = () => {
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
   const [avatar, setAvatar] = useState(null);
+
+  const playAudio = async text => {
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/text-to-speech/`,
+        { text: text },
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          responseType: 'blob', // Important for handling binary data as audio
+        }
+      );
+      console.log(response.data);
+      const audioUrl = URL.createObjectURL(
+        new Blob([response.data], { type: 'audio/mpeg' })
+      );
+      console.log(audioUrl);
+      const audio = new Audio(audioUrl);
+      audio.play();
+    } catch (error) {
+      console.error('Error playing the text:', error);
+    }
+  };
 
   useEffect(() => {
     const fetchAvatarDetails = async () => {
@@ -103,17 +130,26 @@ const Chat = () => {
       >
         <ul className="menu-list">
           <li>
-            <a className="is-active">
+            <Link
+              to="/dashboard"
+              className="is-active"
+              style={{ color: '#7F5056' }}
+            >
+              <FontAwesomeIcon icon={faHome} /> Dashboard
+            </Link>
+          </li>
+          <li>
+            <Link to="/profile" style={{ color: '#7F5056' }}>
               <FontAwesomeIcon icon={faUser} /> Profile
-            </a>
+            </Link>
           </li>
           <li>
-            <a>
+            <Link to="/settings" style={{ color: '#7F5056' }}>
               <FontAwesomeIcon icon={faCog} /> Settings
-            </a>
+            </Link>
           </li>
           <li>
-            <a onClick={logout}>
+            <a onClick={logout} style={{ color: '#7F5056' }}>
               <FontAwesomeIcon icon={faSignOutAlt} /> Logout
             </a>
           </li>
@@ -143,7 +179,6 @@ const Chat = () => {
                 display: 'flex',
                 justifyContent:
                   msg.sender === 'user' ? 'flex-end' : 'flex-start',
-                marginBottom: '10px',
               }}
             >
               <img
@@ -165,6 +200,11 @@ const Chat = () => {
                 }}
               >
                 {msg.text}
+                {msg.sender === 'avatar' && (
+                  <button onClick={() => playAudio(msg.text)}>
+                    <FontAwesomeIcon icon={faPlay} />
+                  </button>
+                )}
               </div>
             </div>
           ))}

@@ -1,0 +1,70 @@
+.card {
+    perspective: 1000px;
+    width: 100%; /* Utilisez 100% pour la largeur responsive */
+    max-width: 300px; /* Maximum width to ensure the card is not too wide on larger screens */
+    height: 400px; /* Fixed height, adjust as needed */
+    background-image: url('../img/adventure.png'); /* Assurez-vous de corriger le chemin vers l'image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+    overflow: hidden;
+    position: relative;
+    
+  }
+  
+  .card-header {
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.5);
+    color: white;
+    text-align: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+  
+  .card-avatars {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  .avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    transition: transform 0.1s;
+  }
+  
+  .avatar:hover {
+    transform: scale(1.1);
+  }
+  
+  .run-button {
+    position: absolute;
+    bottom: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 10px 20px;
+    background: darkred;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+  }
+  
+  .name_photo{
+    color: rgb(215, 108, 88);
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .card {
+      max-width: 90%;
+      height: auto; /* Make height responsive based on content */
+    }
+  }
+  
