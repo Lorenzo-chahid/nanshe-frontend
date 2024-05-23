@@ -1,7 +1,9 @@
 services:
   - type: web
     name: nanshe-frontend
-    env: static
+    env: node
+    buildCommand: npm install --legacy-peer-deps && npm run build
+    startCommand: npm start
     staticPublishPath: build
     routes:
       - src: /.*
