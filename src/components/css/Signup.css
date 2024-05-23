@@ -1,0 +1,108 @@
+/* src/css/AccountCreation.css */
+
+.account-creation-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #222D41;
+}
+
+.form-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #333;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.logo {
+  width: 100px;
+  margin-bottom: 20px;
+}
+
+.title {
+  color: #D76C58;
+  font-size: 2em;
+  margin-bottom: 20px;
+}
+
+.subtitle {
+  color: #D76C58;
+  margin: 20px;
+  font-size: 1.2rem;
+}
+
+.step-box {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.field {
+  margin-bottom: 20px;
+}
+
+.label {
+  color: #D76C58;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.control {
+  position: relative;
+}
+
+.input {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #7F5056;
+  border-radius: 5px;
+  background-color: #11151D;
+  color: #D76C58;
+}
+
+.icon {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  transform: translateY(-50%);
+  color: #D76C58;
+}
+
+.button {
+  width: 100%;
+  padding: 10px;
+  background-color: #7F5056;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.3s;
+}
+
+.button:hover {
+  background-color: #e5533d;
+  transform: scale(1.05);
+}
+
+.notification {
+  background-color: #7F5056;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  margin-top: 20px;
+  text-align: center;
+}
+
+.generated-image-box {
+  margin-top: 20px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  background-color: #F5F5F5;
+  border-radius: 10px;
+  padding: 20px;
+}

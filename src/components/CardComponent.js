@@ -1,5 +1,5 @@
 import React from 'react';
-import './CardComponent.css'; // Assurez-vous de créer ce fichier CSS
+import './css/CardComponent.css'; // Assurez-vous de créer ce fichier CSS
 
 const CardComponent = ({ avatars, onAvatarClick, runAdventure }) => {
   return (

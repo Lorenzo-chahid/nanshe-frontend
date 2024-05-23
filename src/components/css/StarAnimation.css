@@ -1,0 +1,58 @@
+/* src/css/StarAnimation.css */
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2; /* Make sure it's above the image overlay */
+  }
+  
+  .star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    animation: starFlicker 2s infinite;
+  }
+  
+  @keyframes starFlicker {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+  
+  .star-blue {
+    background: blue;
+  }
+  
+  .star-red {
+    background: red;
+  }
+  
+  .star-yellow {
+    background: yellow;
+  }
+  
+  .shooting-star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 6px 3px white;
+    animation: shoot 1s infinite;
+  }
+  
+  @keyframes shoot {
+    0% {
+      opacity: 1;
+      transform: translateX(0) translateY(0);
+    }
+    100% {
+      opacity: 0;
+      transform: translateX(100vw) translateY(-100vh);
+    }
+  }
+  

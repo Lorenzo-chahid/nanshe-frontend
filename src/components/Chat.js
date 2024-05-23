@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { faUser, faCog, faSignOutAlt } from '@fortawesome/free-solid-svg-icons';
-import ReactAudioPlayer from 'react-audio-player';
-import { Link } from 'react-router-dom';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlay, faHome } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect, useRef } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import axios from 'axios';
+import ChatSidebar from './ChatComponents/ChatSidebar';
+import ChatMessage from './ChatComponents/ChatMessage';
+import ChatInput from './ChatComponents/ChatInput';
+import TypingIndicator from './TypingIndicator';
 
 const Chat = () => {
   const { avatarId } = useParams();
-  const { logout, user } = useAuth(); // Assuming `user` contains the user's profile details
+  const navigate = useNavigate();
+  const { logout, user } = useAuth();
   const [messages, setMessages] = useState([]);
   const [message, setMessage] = useState('');
-  const [avatar, setAvatar] = useState(null);
+  const [avatar, setAvatar] = useState([]);
+  const [recording, setRecording] = useState(false);
+  const [isTyping, setIsTyping] = useState(false);
+  const messagesEndRef = useRef(null);
 
   const playAudio = async text => {
     try {
@@ -24,14 +27,12 @@ const Chat = () => {
           headers: {
             'Content-Type': 'application/json',
           },
-          responseType: 'blob', // Important for handling binary data as audio
+          responseType: 'blob',
         }
       );
-      console.log(response.data);
       const audioUrl = URL.createObjectURL(
         new Blob([response.data], { type: 'audio/mpeg' })
       );
-      console.log(audioUrl);
       const audio = new Audio(audioUrl);
       audio.play();
     } catch (error) {
@@ -56,14 +57,13 @@ const Chat = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/conversations/${avatarId}`
         );
-        console.log('HERE :: ', response.data);
         const fetchedMessages = response.data
           .map(conversation => [
             {
               text: conversation.user_message,
               sender: 'user',
-              image:
-                'https://img.freepik.com/photos-premium/personne-dans-carre-qui-personne-dans-cadre_825862-296.jpg',
+              image: '',
+              seen: true,
             },
             {
               text: conversation.avatar_response,
@@ -85,76 +85,131 @@ const Chat = () => {
     fetchConversationHistory();
   }, [avatarId, user]);
 
+  // Function to get the profile image of the avatar
+  const getAvatarProfileImage = id => {
+    const matchedAvatar = avatar.find(av => av.id === parseInt(id));
+    return matchedAvatar ? matchedAvatar.profile_image : '';
+  };
+
   const handleSendMessage = async e => {
     e.preventDefault();
     if (message.trim() !== '') {
       const newMessage = {
         text: message,
         sender: 'user',
-        image:
-          'https://img.freepik.com/photos-premium/personne-dans-carre-qui-personne-dans-cadre_825862-296.jpg',
+        image: '',
+        seen: false,
       };
-      setMessages([...messages, newMessage]);
 
-      try {
-        const response = await axios.post(
-          `${process.env.REACT_APP_API_URL}/chat/`,
-          {
-            avatar_id: avatarId,
-            user_message: message,
-          }
-        );
-
-        const aiMessage = {
-          text: response.data.avatar_response,
-          sender: 'avatar',
-          image: response.data.avatar_image,
-        };
-        setMessages(prevMessages => [...prevMessages, aiMessage]);
-      } catch (error) {
-        console.error('There was an error communicating with the AI!', error);
-      }
-
+      setMessages(prevMessages => [...prevMessages, newMessage]);
       setMessage('');
+
+      // Simulate AI typing
+      setTimeout(async () => {
+        setIsTyping(true);
+        scrollToBottom();
+        setTimeout(async () => {
+          setIsTyping(false);
+
+          try {
+            const response = await axios.post(
+              `${process.env.REACT_APP_API_URL}/chat/`,
+              {
+                avatar_id: avatarId,
+                user_message: message,
+              }
+            );
+
+            const aiMessage = {
+              text: response.data.avatar_response,
+              sender: 'avatar',
+              image: getAvatarProfileImage(avatarId), // Use the utility function here
+            };
+
+            setMessages(prevMessages => [...prevMessages, aiMessage]);
+          } catch (error) {
+            console.error(
+              'There was an error communicating with the AI!',
+              error
+            );
+          }
+        }, Math.random() * (10000 - 4000) + 4000);
+      }, Math.random() * (5000 - 2000) + 2000);
     }
   };
+
+  const handleFileUpload = async e => {
+    const file = e.target.files[0];
+    if (file) {
+      const formData = new FormData();
+      formData.append('file', file);
+      try {
+        const response = await axios.post(
+          `${process.env.REACT_APP_API_URL}/upload/`,
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data',
+            },
+          }
+        );
+        const fileMessage = {
+          text: response.data.file_url,
+          sender: 'user',
+          image: '',
+          type: 'file',
+        };
+        setMessages(prevMessages => [...prevMessages, fileMessage]);
+      } catch (error) {
+        console.error('There was an error uploading the file!', error);
+      }
+    }
+  };
+
+  const handleStartRecording = () => {
+    setRecording(true);
+  };
+
+  const handleStopRecording = async recordedBlob => {
+    setRecording(false);
+    const formData = new FormData();
+    formData.append('audio', recordedBlob.blob);
+    try {
+      const response = await axios.post(
+        `${process.env.REACT_APP_API_URL}/upload-audio/`,
+        formData,
+        {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+      const audioMessage = {
+        text: response.data.audio_url,
+        sender: 'user',
+        image: '',
+        type: 'audio',
+      };
+      setMessages(prevMessages => [...prevMessages, audioMessage]);
+    } catch (error) {
+      console.error('There was an error uploading the audio!', error);
+    }
+  };
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   return (
     <div
       className="container is-fluid"
       style={{ display: 'flex', height: '100vh' }}
     >
-      <aside
-        className="menu"
-        style={{ width: '250px', background: '#f5f5f5', padding: '20px' }}
-      >
-        <ul className="menu-list">
-          <li>
-            <Link
-              to="/dashboard"
-              className="is-active"
-              style={{ color: '#7F5056' }}
-            >
-              <FontAwesomeIcon icon={faHome} /> Dashboard
-            </Link>
-          </li>
-          <li>
-            <Link to="/profile" style={{ color: '#7F5056' }}>
-              <FontAwesomeIcon icon={faUser} /> Profile
-            </Link>
-          </li>
-          <li>
-            <Link to="/settings" style={{ color: '#7F5056' }}>
-              <FontAwesomeIcon icon={faCog} /> Settings
-            </Link>
-          </li>
-          <li>
-            <a onClick={logout} style={{ color: '#7F5056' }}>
-              <FontAwesomeIcon icon={faSignOutAlt} /> Logout
-            </a>
-          </li>
-        </ul>
-      </aside>
+      <ChatSidebar logout={logout} />
       <div
         style={{
           flex: 1,
@@ -173,58 +228,25 @@ const Chat = () => {
           }}
         >
           {messages.map((msg, index) => (
-            <div
+            <ChatMessage
               key={index}
-              style={{
-                display: 'flex',
-                justifyContent:
-                  msg.sender === 'user' ? 'flex-end' : 'flex-start',
-              }}
-            >
-              <img
-                src={msg.image}
-                alt="Profile"
-                style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: '50%',
-                  margin: '0 10px',
-                }}
-              />
-              <div
-                style={{
-                  padding: '10px',
-                  borderRadius: '10px',
-                  background: msg.sender === 'user' ? '#d1e7dd' : '#f8d7da',
-                  maxWidth: '60%',
-                }}
-              >
-                {msg.text}
-                {msg.sender === 'avatar' && (
-                  <button onClick={() => playAudio(msg.text)}>
-                    <FontAwesomeIcon icon={faPlay} />
-                  </button>
-                )}
-              </div>
-            </div>
+              message={msg}
+              playAudio={playAudio}
+              onClickAvatar={() => navigate(`/avatar/${avatarId}`)}
+            />
           ))}
+          {isTyping && <TypingIndicator />}
+          <div ref={messagesEndRef} />
         </div>
-        <form
-          onSubmit={handleSendMessage}
-          style={{ display: 'flex', marginTop: '10px' }}
-        >
-          <input
-            className="input"
-            type="text"
-            value={message}
-            onChange={e => setMessage(e.target.value)}
-            placeholder="Type a message"
-            style={{ flex: 1, marginRight: '10px' }}
-          />
-          <button className="button is-link" type="submit">
-            Send
-          </button>
-        </form>
+        <ChatInput
+          message={message}
+          setMessage={setMessage}
+          handleSendMessage={handleSendMessage}
+          handleFileUpload={handleFileUpload}
+          handleStartRecording={handleStartRecording}
+          handleStopRecording={handleStopRecording}
+          recording={recording}
+        />
       </div>
     </div>
   );

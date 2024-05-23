@@ -3,7 +3,7 @@
     width: 100%; /* Utilisez 100% pour la largeur responsive */
     max-width: 300px; /* Maximum width to ensure the card is not too wide on larger screens */
     height: 400px; /* Fixed height, adjust as needed */
-    background-image: url('../img/adventure.png'); /* Assurez-vous de corriger le chemin vers l'image */
+    background-image: url('../../img/adventure.png'); /* Assurez-vous de corriger le chemin vers l'image */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;

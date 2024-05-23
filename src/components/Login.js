@@ -1,8 +1,10 @@
+// src/pages/Login.js
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../AuthContext';
 import logo from '../img/icon.png'; // Assurez-vous de corriger le chemin vers le logo
+import './css/Login.css'; // Assurez-vous de créer ce fichier CSS
 
 const Login = () => {
   const [login, setLogin] = useState('');
@@ -37,95 +39,54 @@ const Login = () => {
   };
 
   return (
-    <div
-      className="container"
-      style={{ marginTop: '50px', textAlign: 'center', color: '#D76C58' }}
-    >
-      <img
-        src={logo}
-        alt="Nanshe Logo"
-        style={{ width: '150px', marginBottom: '20px' }}
-      />
-      <h1 className="title" style={{ color: '#7F5056' }}>
-        Welcome to Nanshe
-      </h1>
-      <div
-        className="box"
-        style={{
-          boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)',
-          padding: '20px',
-          backgroundColor: '#222D41',
-        }}
-      >
+    <div className="login-container">
+      <img src={logo} alt="Nanshe Logo" className="login-logo" />
+      <h1 className="login-title">Welcome to Nanshe</h1>
+      <div className="login-box">
         <form onSubmit={handleSubmit}>
-          <div className="field">
-            <label className="label" style={{ color: '#D76C58' }}>
-              Email or Username
-            </label>
-            <div className="control has-icons-left">
+          <div className="login-field">
+            <label className="login-label">Email or Username</label>
+            <div className="login-control">
               <input
-                className="input"
+                className="login-input"
                 type="text"
                 placeholder="Email or Username"
                 value={login}
                 onChange={e => setLogin(e.target.value)}
                 required
-                style={{
-                  borderColor: '#7F5056',
-                  backgroundColor: '#11151D',
-                  color: '#D76C58',
-                }}
               />
-              <span
-                className="icon is-small is-left"
-                style={{ color: '#D76C58' }}
-              >
+              <span className="login-icon">
                 <i className="fas fa-user"></i>
               </span>
             </div>
           </div>
-          <div className="field">
-            <label className="label" style={{ color: '#D76C58' }}>
-              Password
-            </label>
-            <div className="control has-icons-left">
+          <div className="login-field">
+            <label className="login-label">Password</label>
+            <div className="login-control">
               <input
-                className="input"
+                className="login-input"
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 required
-                style={{
-                  borderColor: '#7F5056',
-                  backgroundColor: '#11151D',
-                  color: '#D76C58',
-                }}
               />
-              <span
-                className="icon is-small is-left"
-                style={{ color: '#D76C58' }}
-              >
+              <span className="login-icon">
                 <i className="fas fa-lock"></i>
               </span>
             </div>
           </div>
-          {error && <p className="help is-danger">{error}</p>}{' '}
-          {/* Afficher l'erreur ici */}
-          <div className="field">
-            <div className="control">
-              <button
-                className="button is-link"
-                type="submit"
-                style={{ backgroundColor: '#7F5056', borderColor: '#7F5056' }}
-              >
+          {error && <p className="login-error">{error}</p>}
+          <div className="login-field">
+            <div className="login-control">
+              <button className="login-button" type="submit">
                 Login
               </button>
             </div>
           </div>
-          <p style={{ marginTop: '20px', color: '#D76C58' }}>
+          <p className="login-footer">
             Don't have an account?{' '}
-            <Link to="/" style={{ color: '#D76C58' }}>
+            <Link to="/signup" className="login-link">
               Create one here
             </Link>
             .

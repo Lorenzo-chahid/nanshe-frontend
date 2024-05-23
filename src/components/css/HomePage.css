@@ -1,0 +1,150 @@
+/* src/css/HomePage.css */
+
+.home-page {
+  font-family: Arial, sans-serif;
+  color: #fff;
+  background-color: #222D40;
+}
+
+.jumbotron {
+  position: relative;
+  background: url('../../img/adventure.png') no-repeat center center/cover;
+  height: calc(100vh - 60px); /* Adjust height considering the header */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  overflow: hidden;
+  margin-top: 60px; /* Adjust top margin to fit below the header */
+}
+
+.image-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(85, 85, 85, 0.8); /* Grey transparent overlay */
+  z-index: 1;
+}
+
+.title-container {
+  position: relative;
+  z-index: 3; /* Ensure the text is above the overlays */
+  text-align: center;
+}
+
+.app-title {
+  font-size: 3em;
+  margin: 0.5em 0;
+}
+
+.main-title {
+  font-size: 2.5em;
+}
+
+.intro-text {
+  max-width: 600px;
+  margin: 1em auto;
+}
+
+.signup-button {
+  background: #ff6347;
+  color: white;
+  padding: 0.5em 1em;
+  text-decoration: none;
+  border-radius: 5px;
+  margin-top: 1em;
+  transition: background 0.3s, transform 0.3s;
+}
+
+.signup-button:hover {
+  background: #e5533d;
+  transform: scale(1.05);
+}
+
+.features-section {
+  padding: 2em 0;
+  text-align: center;
+}
+
+.section-title {
+  font-size: 2em;
+  margin-bottom: 1em;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 2em 0;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 1em;
+  box-sizing: border-box;
+  background: #333;
+  border-radius: 8px;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.feature:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.feature-image {
+  width: 200px;
+  height: 200px;
+  margin: 1em;
+  border-radius: 8px;
+  transition: transform 0.3s;
+}
+
+.feature-image:hover {
+  transform: scale(1.05);
+}
+
+.feature-description {
+  max-width: 600px;
+  text-align: left;
+  color: #fff;
+  padding: 1em;
+}
+
+.feature-reverse {
+  flex-direction: row-reverse;
+}
+
+.feature-description:hover {
+  transform: translateY(-5px);
+}
+
+.footer {
+  background: #222D40;
+  color: white;
+  padding: 1em 0;
+  text-align: center;
+}
+
+.footer-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer-links {
+  margin-bottom: 1em;
+}
+
+.footer-links a {
+  color: white;
+  margin: 0 0.5em;
+  text-decoration: none;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}

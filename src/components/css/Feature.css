@@ -1,0 +1,48 @@
+.feature {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 2em 0;
+    width: 100%;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 1em;
+    box-sizing: border-box;
+    background: #333;
+    border-radius: 8px;
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .feature:hover {
+    transform: scale(1.02);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  }
+  
+  .feature-image {
+    width: 200px;
+    height: 200px;
+    margin: 1em;
+    border-radius: 8px;
+    transition: transform 0.3s;
+  }
+  
+  .feature-image:hover {
+    transform: scale(1.05);
+  }
+  
+  .feature-description {
+    max-width: 600px;
+    text-align: left;
+    color: #fff;
+    padding: 1em;
+  }
+  
+  .feature-reverse {
+    flex-direction: row-reverse;
+  }
+  
+  .feature-description:hover {
+    transform: translateY(-5px);
+  }
+  
