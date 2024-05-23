@@ -29,6 +29,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "install:legacy": "npm install --legacy-peer-deps",
     "preinstall": "export NODE_OPTIONS=--openssl-legacy-provider"
   },
   "eslintConfig": {
