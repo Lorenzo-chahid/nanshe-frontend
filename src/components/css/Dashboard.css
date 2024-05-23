@@ -1,0 +1,29 @@
+.dashboard-container {
+    display: flex;
+    height: 100vh;
+    background-color: #222D41;
+    color: #D76C58;
+  }
+  
+  .main-content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    transition: margin-left 0.3s;
+  }
+  
+  .content-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  
+  .sidebar-open .main-content {
+    margin-left: 250px;
+  }
+  
+  .sidebar-closed .main-content {
+    margin-left: 70px; /* Ajustez cette marge selon vos besoins */
+  }
+  

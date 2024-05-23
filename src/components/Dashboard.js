@@ -6,10 +6,12 @@ import AvatarList from './AvatarList';
 import CreateAvatarButton from './CreateAvatarButton';
 import CardComponent from './CardComponent';
 import ChatSidebar from './ChatComponents/ChatSidebar';
+import './css/Dashboard.css'; // Assurez-vous de créer et utiliser ce fichier CSS
 
 const Dashboard = () => {
   const { logout, userId } = useAuth();
   const [avatars, setAvatars] = useState([]);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const navigate = useNavigate();
 
   const fetchAvatars = async () => {
@@ -59,32 +61,23 @@ const Dashboard = () => {
     }
   };
 
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen);
+  };
+
   return (
     <div
-      className="container is-fluid"
-      style={{
-        display: 'flex',
-        height: '100vh',
-        backgroundColor: '#222D41',
-        color: '#D76C58',
-      }}
+      className={`dashboard-container ${
+        isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'
+      }`}
     >
-      <ChatSidebar logout={logout} />
-      <div
-        style={{
-          flex: 1,
-          padding: '20px',
-          display: 'flex',
-          flexDirection: 'column',
-        }}
-      >
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            marginBottom: '20px',
-          }}
-        >
+      <ChatSidebar
+        logout={logout}
+        isOpen={isSidebarOpen}
+        toggleSidebar={toggleSidebar}
+      />
+      <div className="main-content">
+        <div className="content-header">
           <CreateAvatarButton onCreate={handleCreateAvatar} />
         </div>
         <AvatarList
