@@ -61,9 +61,9 @@ const AvatarList = ({ avatars, onFavorite, onEdit, onDelete }) => {
                 style={{ cursor: 'pointer' }}
               >
                 <td>
-                  <figure className="image is-48x48">
+                  <figure className="image is-128x128">
                     <img
-                      className="is-rounded"
+                      className="is-rounded responsive-img"
                       src={avatar.profile_image}
                       alt="Avatar"
                     />

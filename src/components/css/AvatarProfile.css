@@ -1,0 +1,184 @@
+/* AvatarProfile.css */
+.avatar-profile-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #d76c58;
+    padding: 20px;
+    background-color: #222d41;
+    min-height: 100vh;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .back-link {
+    color: #d76c58;
+    text-decoration: none;
+    margin-bottom: 20px;
+    display: inline-block;
+  }
+  
+  .title {
+    color: #d76c58;
+    font-size: 2em;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+  
+  .avatar-image-container {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .avatar-image {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    border: 2px solid #d76c58;
+    object-fit: cover;
+  }
+  
+  .form-container,
+  .details-container {
+    width: 100%;
+    max-width: 600px;
+    background-color: #9d9696;
+    padding: 20px;
+    border-radius: 10px;
+    color: #222d41;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .edit-form {
+    width: 100%;
+  }
+  
+  .field {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  .label {
+    color: #d76c58;
+    margin-bottom: 5px;
+  }
+  
+  .control {
+    position: relative;
+    width: 100%;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #7f5056;
+    border-radius: 5px;
+    background-color: #11151d;
+    color: #d76c58;
+  }
+  
+  .action-buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 20px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  .button:hover {
+    transform: scale(1.05);
+  }
+  
+  .is-danger {
+    background-color: #e5533d;
+  }
+  
+  .is-primary {
+    background-color: #7f5056;
+  }
+  
+  .is-link {
+    background-color: #4a90e2;
+  }
+  
+  /* SkillTree styles */
+  .skill-tree-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .skill-node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: #222d41;
+    color: #d76c58;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    position: relative;
+  }
+  
+  .skill-node.unlocked {
+    border-color: #7f5056;
+    background-color: #333;
+  }
+  
+  .skill-node.locked {
+    border-color: #555;
+    background-color: #222;
+  }
+  
+  .skill-node:hover {
+    transform: scale(1.1);
+  }
+  
+
+  /* Level circle styles */
+  .level-circle {
+    margin-left: 45%;
+    margin-top: 1rem;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #d76c58;
+    color: #222d41;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2em;
+    margin-bottom: 20px;
+  }
+  
+  /* Experience bar styles */
+  .experience-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #555;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    overflow: hidden;
+  }
+  
+  .experience-bar-fill {
+    height: 100%;
+    background-color: #7f5056;
+    border-radius: 10px;
+  }
+  

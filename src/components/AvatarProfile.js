@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faTrash, faEdit, faSave } from '@fortawesome/free-solid-svg-icons';
 import axios from 'axios';
 import { useParams, Link, useNavigate } from 'react-router-dom';
+import SkillTree from './SkillTree'; // Importation du composant SkillTree
+import './css/AvatarProfile.css'; // Assurez-vous de créer et utiliser ce fichier CSS
 
 const AvatarProfile = () => {
   const { avatarId } = useParams();
   const navigate = useNavigate();
   const [avatar, setAvatar] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [activeTab, setActiveTab] = useState('info');
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',
@@ -23,6 +26,7 @@ const AvatarProfile = () => {
     weight: '',
     bust_size: '',
     user_id: '',
+    experience: '',
   });
 
   useEffect(() => {
@@ -31,7 +35,6 @@ const AvatarProfile = () => {
         const response = await axios.get(
           `${process.env.REACT_APP_API_URL}/avatar/${avatarId}`
         );
-        console.log('RESPONSE ::: ', response.data);
         setAvatar(response.data);
         setFormData(response.data);
       } catch (error) {
@@ -56,7 +59,8 @@ const AvatarProfile = () => {
     setFormData({ ...formData, [name]: value });
   };
 
-  const handleSave = async () => {
+  const handleSave = async e => {
+    e.preventDefault();
     try {
       await axios.put(
         `${process.env.REACT_APP_API_URL}/avatar/${avatarId}`,
@@ -69,54 +73,17 @@ const AvatarProfile = () => {
     }
   };
 
-  if (!avatar) {
-    return <div>Loading...</div>;
-  }
+  const calculateExperiencePercentage = (experience, level) => {
+    const levelExp = level ** 2 * 20;
+    return Math.min((experience / levelExp) * 100, 100);
+  };
 
-  return (
-    <div className="container" style={{ color: '#D76C58', padding: '20px' }}>
-      <Link to="/dashboard" style={{ color: '#D76C58' }}>
-        Back to Dashboard
-      </Link>
-      <h1 className="title">
-        {avatar.first_name} {avatar.last_name}
-      </h1>
-      <div>
-        <img
-          src={avatar.profile_image}
-          alt="Avatar"
-          style={{ width: '150px', borderRadius: '50%' }}
-        />
-      </div>
-      <div style={{ display: 'flex', alignItems: 'center', marginTop: '10px' }}>
-        <button
-          className="button is-danger"
-          onClick={handleDelete}
-          style={{ marginRight: '10px' }}
-        >
-          <span className="icon">
-            <FontAwesomeIcon icon={faTrash} />
-          </span>
-          <span>Delete</span>
-        </button>
-        {isEditing ? (
-          <button
-            className="button is-primary"
-            onClick={handleSave}
-            style={{ marginRight: '10px' }}
-          >
-            Save
-          </button>
-        ) : (
-          <button className="button is-link" onClick={() => setIsEditing(true)}>
-            Edit
-          </button>
-        )}
-      </div>
+  const renderInfoTab = () => (
+    <>
       {isEditing ? (
-        <div style={{ marginTop: '20px' }}>
+        <form onSubmit={handleSave} className="edit-form">
           <div className="field">
-            <label className="label">Profil Image</label>
+            <label className="label">Profile Image</label>
             <div className="control">
               <input
                 className="input"
@@ -127,152 +94,132 @@ const AvatarProfile = () => {
               />
             </div>
           </div>
-          <div className="field">
-            <label className="label">First Name</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="first_name"
-                value={formData.first_name}
-                onChange={handleInputChange}
-              />
-            </div>
+          {Object.keys(formData).map(
+            (key, index) =>
+              key !== 'profile_image' && (
+                <div className="field" key={index}>
+                  <label className="label">{key.replace('_', ' ')}</label>
+                  <div className="control">
+                    <input
+                      className="input"
+                      type={
+                        key === 'age' || key === 'weight' ? 'number' : 'text'
+                      }
+                      name={key}
+                      value={formData[key]}
+                      onChange={handleInputChange}
+                    />
+                  </div>
+                </div>
+              )
+          )}
+          <div className="action-buttons">
+            <button className="button is-primary" type="submit">
+              <span className="icon">
+                <FontAwesomeIcon icon={faSave} />
+              </span>
+              <span>Save</span>
+            </button>
+            <button
+              type="button"
+              className="button is-link"
+              onClick={() => setIsEditing(false)}
+            >
+              Cancel
+            </button>
           </div>
-          <div className="field">
-            <label className="label">Last Name</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="last_name"
-                value={formData.last_name}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Age</label>
-            <div className="control">
-              <input
-                className="input"
-                type="number"
-                name="age"
-                value={formData.age}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Gender</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="gender"
-                value={formData.gender}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Personality</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="personality"
-                value={formData.personality}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Traits</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="traits"
-                value={formData.traits}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Writing</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="writing"
-                value={formData.writing}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Eye Color</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="eye_color"
-                value={formData.eye_color}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Hair Color</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="hair_color"
-                value={formData.hair_color}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Weight</label>
-            <div className="control">
-              <input
-                className="input"
-                type="number"
-                name="weight"
-                value={formData.weight}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-          <div className="field">
-            <label className="label">Bust Size</label>
-            <div className="control">
-              <input
-                className="input"
-                type="text"
-                name="bust_size"
-                value={formData.bust_size}
-                onChange={handleInputChange}
-              />
-            </div>
-          </div>
-        </div>
+        </form>
       ) : (
-        <div style={{ marginTop: '20px' }}>
-          <p>Age: {avatar.age}</p>
-          <p>Gender: {avatar.gender || 'Not specified'}</p>
-          <p>Personality: {avatar.personality}</p>
-          <p>Traits: {avatar.traits}</p>
-          <p>Writing: {avatar.writing}</p>
-          <p>Eye Color: {avatar.eye_color}</p>
-          <p>Hair Color: {avatar.hair_color}</p>
-          <p>Weight: {avatar.weight}</p>
-          <p>Bust Size: {avatar.bust_size}</p>
+        <div className="details-container">
+          {Object.keys(avatar).map(
+            (key, index) =>
+              key !== 'id' &&
+              key !== 'user_id' &&
+              key !== 'profile_image' && (
+                <p key={index}>
+                  <strong>{key.replace('_', ' ')}:</strong> {avatar[key]}
+                </p>
+              )
+          )}
+          <div className="action-buttons">
+            <button className="button is-danger" onClick={handleDelete}>
+              <span className="icon">
+                <FontAwesomeIcon icon={faTrash} />
+              </span>
+              <span>Delete</span>
+            </button>
+            <button
+              className="button is-link"
+              onClick={() => setIsEditing(true)}
+            >
+              <span className="icon">
+                <FontAwesomeIcon icon={faEdit} />
+              </span>
+              <span>Edit</span>
+            </button>
+          </div>
         </div>
       )}
+    </>
+  );
+
+  const renderSkillsTab = () => (
+    <div className="skills-container">
+      <h2>Level:</h2>
+      <div className="level-circle">
+        <span>{avatar.level}</span>
+      </div>
+      <div className="experience-bar">
+        <div
+          className="experience-bar-fill"
+          style={{
+            width: `${calculateExperiencePercentage(
+              avatar.experience,
+              avatar.level
+            )}%`,
+          }}
+        ></div>
+      </div>
+      <p>Experience: {avatar.experience}</p>
+      <p>Relationship Status: {avatar.relationship_status}</p>
+      <SkillTree avatar={avatar} />
+    </div>
+  );
+
+  if (!avatar) {
+    return <div>Loading...</div>;
+  }
+
+  return (
+    <div className="avatar-profile-container">
+      <Link to="/dashboard" className="back-link">
+        Back to Dashboard
+      </Link>
+      <h1 className="title">
+        {avatar.first_name} {avatar.last_name}
+      </h1>
+      <div className="avatar-image-container">
+        <img src={avatar.profile_image} alt="Avatar" className="avatar-image" />
+      </div>
+      <div className="tabs">
+        <ul>
+          <li
+            className={activeTab === 'info' ? 'is-active' : ''}
+            onClick={() => setActiveTab('info')}
+          >
+            <a>Info</a>
+          </li>
+          <li
+            className={activeTab === 'skills' ? 'is-active' : ''}
+            onClick={() => setActiveTab('skills')}
+          >
+            <a>Skills</a>
+          </li>
+        </ul>
+      </div>
+      <div className="form-container">
+        {activeTab === 'info' ? renderInfoTab() : renderSkillsTab()}
+      </div>
     </div>
   );
 };

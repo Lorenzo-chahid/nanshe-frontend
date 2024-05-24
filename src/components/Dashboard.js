@@ -52,9 +52,8 @@ const Dashboard = () => {
 
   const handleDelete = async avatarId => {
     try {
-      await axios.delete(
-        `${process.env.REACT_APP_API_URL}/avatars/${avatarId}`
-      );
+      await axios.delete(`${process.env.REACT_APP_API_URL}/avatar/${avatarId}`);
+      navigate('/dashboard');
       fetchAvatars();
     } catch (error) {
       console.error('There was an error deleting the avatar!', error);

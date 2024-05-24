@@ -6,6 +6,9 @@ import ChatSidebar from './ChatComponents/ChatSidebar';
 import ChatMessage from './ChatComponents/ChatMessage';
 import ChatInput from './ChatComponents/ChatInput';
 import TypingIndicator from './TypingIndicator';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faHome } from '@fortawesome/free-solid-svg-icons';
+import './css/Chat.css'; // Assurez-vous de créer et utiliser ce fichier CSS
 
 const Chat = () => {
   const { avatarId } = useParams();
@@ -16,6 +19,7 @@ const Chat = () => {
   const [avatar, setAvatar] = useState([]);
   const [recording, setRecording] = useState(false);
   const [isTyping, setIsTyping] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const messagesEndRef = useRef(null);
 
   const playAudio = async text => {
@@ -206,27 +210,17 @@ const Chat = () => {
 
   return (
     <div
-      className="container is-fluid"
-      style={{ display: 'flex', height: '100vh' }}
+      className={`chat-container ${
+        isSidebarOpen ? 'sidebar-open' : 'sidebar-closed'
+      }`}
     >
-      <ChatSidebar logout={logout} />
-      <div
-        style={{
-          flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
-          padding: '20px',
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-            overflowY: 'auto',
-            padding: '10px',
-            border: '1px solid #ccc',
-            borderRadius: '5px',
-          }}
-        >
+      <ChatSidebar
+        logout={logout}
+        isOpen={isSidebarOpen}
+        toggleSidebar={() => setIsSidebarOpen(!isSidebarOpen)}
+      />
+      <div className="main-content">
+        <div className="messages-container">
           {messages.map((msg, index) => (
             <ChatMessage
               key={index}
@@ -247,6 +241,9 @@ const Chat = () => {
           handleStopRecording={handleStopRecording}
           recording={recording}
         />
+      </div>
+      <div className="floating-button" onClick={() => setIsSidebarOpen(true)}>
+        <FontAwesomeIcon icon={faHome} />
       </div>
     </div>
   );

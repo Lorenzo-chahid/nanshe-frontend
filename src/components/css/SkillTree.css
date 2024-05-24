@@ -1,0 +1,38 @@
+/* SkillTree.css */
+.skill-tree-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+    padding: 20px;
+  }
+  
+  .skill-node {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    background-color: #222d41;
+    color: #d76c58;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+    position: relative;
+  }
+  
+  .skill-node.unlocked {
+    border-color: #7f5056;
+    background-color: #333;
+  }
+  
+  .skill-node.locked {
+    border-color: #555;
+    background-color: #222;
+  }
+  
+  .skill-node:hover {
+    transform: scale(1.1);
+  }
+  

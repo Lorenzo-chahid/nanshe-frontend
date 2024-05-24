@@ -11,6 +11,7 @@ import Dashboard from './components/Dashboard';
 import AvatarProfile from './components/AvatarProfile';
 import PrivateRoute from './components/PrivateRoute';
 import Chat from './components/Chat';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const App = () => {
   return (

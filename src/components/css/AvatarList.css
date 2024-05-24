@@ -1,0 +1,6 @@
+/* src/css/AvatarProfile.css */
+.responsive-img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}

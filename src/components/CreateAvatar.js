@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight, faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import avatarImage from '../img/icon.png'; // Remplacez par le chemin de votre image
 
 const CreateAvatar = () => {
+  const navigate = useNavigate();
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState({
     firstName: localStorage.getItem('firstName') || '',
@@ -81,6 +84,7 @@ const CreateAvatar = () => {
       console.log('Avatar creation response:', response);
       if (response.status === 200) {
         alert('Avatar created successfully!');
+        navigate('/dashboard');
         // Perform any additional actions after successful avatar creation
       }
     } catch (error) {
